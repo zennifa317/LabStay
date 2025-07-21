@@ -4,11 +4,12 @@ import cv2
 import torch
 from torchvision.models.detection import ssdlite320_mobilenet_v3_large, SSDLite320_MobileNet_V3_Large_Weights
 from torchvision import transforms
+from PIL import Image
 
 def detect(model, source, preprocess, class_names):
     model.eval()
     with torch.no_grad():
-        if source != 0:
+        if source != '0':
             img = cv2.imread(source)
             if img is None:
                 print(f"画像を読み込めませんでした: {source}")
@@ -28,7 +29,8 @@ def detect(model, source, preprocess, class_names):
 
             # BGR→RGB変換
                 img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                img_tensor = preprocess(img).unsqueeze(0)  # バッチ次元追加
+                pil_img = Image.fromarray(img)
+                img_tensor = preprocess(pil_img).unsqueeze(0)  # バッチ次元追加
 
                 with torch.no_grad():
                     outputs = model(img_tensor)[0]
