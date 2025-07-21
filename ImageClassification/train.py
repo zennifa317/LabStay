@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
+from torchvision.transforms import v2
 from tqdm import tqdm
 
 from dataset import LabStayDataset
@@ -97,9 +98,23 @@ if __name__ == '__main__':
 
     with open(label_path, 'r') as f:
         label_paths = json.load(f)['Annotations']
+        
+    train_transform = v2.Compose([
+        v2.ToImage(),
+        v2.Resize((224, 224)),
+        v2.ToDtype(torch.float32, scale=True),
+        v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    ])
+    
+    valid_transform = v2.Compose([
+        v2.ToImage(),
+        v2.Resize((224, 224)),
+        v2.ToDtype(torch.float32, scale=True),
+        v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    ])
 
-    train_dataset = LabStayDataset(train_images, label_paths, classes)
-    valid_dataset = LabStayDataset(val_images, label_paths, classes)
+    train_dataset = LabStayDataset(train_images, label_paths, classes, transform=train_transform)
+    valid_dataset = LabStayDataset(val_images, label_paths, classes, transform=valid_transform)
 
     train_dataloader = DataLoader(train_dataset, batch_size=train_batch_size, shuffle=True)
     valid_dataloader = DataLoader(valid_dataset, batch_size=valid_batch_size, shuffle=False)
