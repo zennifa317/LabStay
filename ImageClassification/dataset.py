@@ -7,12 +7,9 @@ from torch.utils.data import Dataset
 
 class LabStayDataset(Dataset):
     def __init__(self, image_paths, label_paths, classes, transform=None):
-        with open(image_paths, 'r') as f:
-            self.image_paths = f.read().splitlines()
-            
-        with open(label_paths, 'r') as f:
-            self.label_paths = json.load(f)['Annotations']
-        
+        self.image_paths = image_paths
+        self.label_paths = label_paths
+
         self.lb = LabelBinarizer()
         self.lb.fit(classes)
         
