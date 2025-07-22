@@ -28,6 +28,7 @@ if __name__ == '__main__':
     device = 'cuda'
     weight_path = 'path/to/weights.pth'
     image_path = 'path/to/image.jpg'
+    top_k = 5
     
     model = LabStayModel()
     model.to(device)
@@ -35,5 +36,8 @@ if __name__ == '__main__':
     model.load_state_dict(torch.load(weight_path))
 
     pred = detect(image_path, model, device)
-    pred.argmax(dim=1) #治す
-    print(f"Predicted class: {pred}")
+    values, indices = torch.topk(pred, top_k)
+
+    print(f'Top {top_k} predictions:')
+    for v, i in zip(values, indices):
+        print(f'Class: {i.item()}, Score: {v.item():.4f}')
