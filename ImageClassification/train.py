@@ -119,7 +119,7 @@ if __name__ == '__main__':
     train_dataloader = DataLoader(train_dataset, batch_size=train_batch_size, shuffle=True)
     valid_dataloader = DataLoader(valid_dataset, batch_size=valid_batch_size, shuffle=False)
 
-    model = LabStayModel(num_classes=num_classes)
+    model = LabStayModel()
     model.to(device)
 
     loss = nn.CrossEntropyLoss()

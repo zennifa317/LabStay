@@ -39,7 +39,7 @@ if __name__ == '__main__':
     classes = data['class']
     num_classes = len(classes)
 
-    model = LabStayModel(num_classes=num_classes)
+    model = LabStayModel()
     model.to(device)
 
     model.load_state_dict(torch.load(weight_path, weights_only=True))

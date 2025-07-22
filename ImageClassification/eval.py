@@ -54,7 +54,7 @@ if __name__ == '__main__':
     with open(label_path, 'r') as f:
         label_paths = json.load(f)['annotations']
 
-    model = LabStayModel(num_classes=num_classes)
+    model = LabStayModel()
     model.load_state_dict(torch.load(weight_path, weights_only=True))
     model.to(device)
     
