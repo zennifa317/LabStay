@@ -28,7 +28,7 @@ if __name__ == '__main__':
     device = 'cuda'
     weight_path = 'path/to/weights.pth'
     image_path = 'path/to/image.jpg'
-    top_k = 5
+    top_k = 1
     
     model = LabStayModel()
     model.to(device)
