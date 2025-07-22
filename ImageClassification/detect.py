@@ -28,9 +28,10 @@ if __name__ == '__main__':
     device = 'cuda'
     weight_path = 'path/to/weights.pth'
     image_path = 'path/to/image.jpg'
+    num_classes = 5
     top_k = 1
-    
-    model = LabStayModel()
+
+    model = LabStayModel(num_classes=num_classes)
     model.to(device)
 
     model.load_state_dict(torch.load(weight_path))

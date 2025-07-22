@@ -89,6 +89,7 @@ if __name__ == '__main__':
     train_images = data['train']
     val_images = data['val']
     classes = data['class']
+    num_classes = len(classes)
 
     with open(train_images, 'r') as f:
         train_images = f.read().splitlines()
@@ -119,7 +120,7 @@ if __name__ == '__main__':
     train_dataloader = DataLoader(train_dataset, batch_size=train_batch_size, shuffle=True)
     valid_dataloader = DataLoader(valid_dataset, batch_size=valid_batch_size, shuffle=False)
 
-    model = LabStayModel()
+    model = LabStayModel(num_classes=num_classes)
     model.to(device)
 
     loss = nn.CrossEntropyLoss()

@@ -45,14 +45,15 @@ if __name__ == '__main__':
 
     test_images = data['test']
     classes = data['class']
+    num_classes = len(classes)
 
     with open(test_images, 'r') as f:
         test_images = f.read().splitlines()
 
     with open(label_path, 'r') as f:
         label_paths = json.load(f)['Annotations']
-        
-    model = LabStayModel()
+
+    model = LabStayModel(num_classes=num_classes)
     model.load_state_dict(torch.load(weight_path))
     model.to(device)
     
