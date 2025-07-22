@@ -50,7 +50,7 @@ def valid(dataloader, model, loss_fn, device):
     return ave_loss
 
 def plot_loss(train_losses, valid_losses, epochs, results_path):
-    plt.figure(figsize=(10, 5))
+    plt.figure()
     epochs_list = list(range(1, epochs + 1))
     plt.plot(epochs_list, train_losses, label='Train Loss')
     plt.plot(epochs_list, valid_losses, label='Valid Loss')
@@ -61,21 +61,20 @@ def plot_loss(train_losses, valid_losses, epochs, results_path):
     plt.legend()
     plt.grid()
 
-    plt.show()
-
     plot_path = os.path.join(results_path, 'loss_plot.png')
     plt.savefig(plot_path)
 
 if __name__ == '__main__':
+    #必須
     data_path = './data/data.json'
-    label_path = './data/labels.json'
+    label_path = 'path/to/annotations.json'
     train_batch_size = 32
     valid_batch_size = 32
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     lr = 0.001
     momentum = 0.9
     weight_decay = 1e-4
-    epochs = 100
+    epochs = 10
     output_dir = './results/train'
 
     if not os.path.exists(output_dir):
@@ -98,7 +97,7 @@ if __name__ == '__main__':
         val_images = f.read().splitlines()
 
     with open(label_path, 'r') as f:
-        label_paths = json.load(f)['Annotations']
+        label_paths = json.load(f)['annotations']
         
     train_transform = v2.Compose([
         v2.ToImage(),

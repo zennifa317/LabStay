@@ -20,17 +20,18 @@ def eval(model, dataloader, device):
             images = images.to(device)
             pred = model(images)
             
-            preds.append(pred.argmax(dim=1).cpu().numpy())
-            labels.append(np.argmax(label, axis=1))
+            preds.extend(pred.argmax(dim=1).cpu().numpy())
+            labels.extend(label.squeeze().argmax(dim=1).cpu().numpy())
 
-    accuracy = accuracy_score(labels, preds)
+    accuracy = accuracy_score(np.array(labels), np.array(preds))
 
     return accuracy
 
 if __name__ == '__main__':
-    weight_path = 'path/to/best_weights.pth'
+    # 必須
+    weight_path = 'path/to/weight/best.pth'
     data_path = './data/data.json'
-    label_path = './data/labels.json'
+    label_path = 'path/to/annotations.json'
     test_batch_size = 32
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     #output_dir = './results/test'
@@ -51,10 +52,10 @@ if __name__ == '__main__':
         test_images = f.read().splitlines()
 
     with open(label_path, 'r') as f:
-        label_paths = json.load(f)['Annotations']
+        label_paths = json.load(f)['annotations']
 
     model = LabStayModel(num_classes=num_classes)
-    model.load_state_dict(torch.load(weight_path))
+    model.load_state_dict(torch.load(weight_path, weights_only=True))
     model.to(device)
     
     test_transform = v2.Compose([

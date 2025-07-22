@@ -1,3 +1,5 @@
+import json
+
 from PIL import Image
 import torch
 from torchvision.transforms import v2
@@ -20,25 +22,34 @@ def detect(image_path, model, device):
         image = image.unsqueeze(0).to(device)
         
         pred = model(image)
-        pred = pred.item()
 
     return pred
 
 if __name__ == '__main__':
-    device = 'cuda'
-    weight_path = 'path/to/weights.pth'
+    #必須
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    data_path = './data/data.json'
+    weight_path = 'path/to/weight/best.pth'
     image_path = 'path/to/image.jpg'
-    num_classes = 5
-    top_k = 1
+    top_k = 5
+    
+    with open(data_path, 'r') as f:
+        data = json.load(f)
+
+    classes = data['class']
+    num_classes = len(classes)
 
     model = LabStayModel(num_classes=num_classes)
     model.to(device)
 
-    model.load_state_dict(torch.load(weight_path))
+    model.load_state_dict(torch.load(weight_path, weights_only=True))
 
     pred = detect(image_path, model, device)
     values, indices = torch.topk(pred, top_k)
+    values = values.squeeze()
+    indices = indices.squeeze()
 
     print(f'Top {top_k} predictions:')
     for v, i in zip(values, indices):
-        print(f'Class: {i.item()}, Score: {v.item():.4f}')
+        class_name = classes[i.item()]
+        print(f'Class: {class_name}, Score: {v.item():.4f}')

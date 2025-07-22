@@ -1,8 +1,8 @@
-import json
 import os
 
 from PIL import Image
 from sklearn.preprocessing import LabelBinarizer
+import torch
 from torch.utils.data import Dataset
 
 class LabStayDataset(Dataset):
@@ -24,6 +24,7 @@ class LabStayDataset(Dataset):
         
         image = self.load_image(image_path)
         label = self.lb.transform([self.label_paths[image_name]])
+        label = torch.tensor(label, dtype=torch.float32)
         
         if self.transform:
             image = self.transform(image)

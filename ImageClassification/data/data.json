@@ -1,6 +1,6 @@
 {
-    "train": "path/to/train",
-    "val": "path/to/val",
-    "test": "path/to/test",
-    "class": ["class1", "class2", "class3"]
+    "train": "./data/train.txt",
+    "val": "./data/val.txt",
+    "test": "./data/test.txt",
+    "class": ["class1", "class2", "class3", "class4", "class5"]
 }
