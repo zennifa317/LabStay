@@ -1,3 +1,4 @@
 ObjectDetection/output/*
 ImageClassification/data/*
 __pycache__/
+ImageClassification/results/*
