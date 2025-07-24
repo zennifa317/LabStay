@@ -123,10 +123,10 @@ if __name__ == '__main__':
     train_dataloader = DataLoader(train_dataset, batch_size=train_batch_size, shuffle=True)
     valid_dataloader = DataLoader(valid_dataset, batch_size=valid_batch_size, shuffle=False)
 
-    model = LabStayModel()
+    model = LabStayModel(num_classes=num_classes)
     model.to(device)
 
-    loss = nn.CrossEntropyLoss()
+    loss = nn.CrossEntropyLoss(label_smoothing=0.1)
     optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=0.0)
 
