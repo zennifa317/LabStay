@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class LabStayModel(nn.Module):
-    def __init__(self, num_classes=5):
+    def __init__(self, num_classes=3):
         super().__init__()
         self.features = nn.Sequential(
             # Block 1: 224x224 -> 112x112
