@@ -1,6 +1,6 @@
 {
     "train": "./data/train.txt",
-    "val": "./data/val.txt",
+    "val": "./data/valid.txt",
     "test": "./data/test.txt",
     "class": ["飯塚悟志", "角田晃広", "豊本明長"]
 }
