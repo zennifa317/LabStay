@@ -102,8 +102,12 @@ if __name__ == '__main__':
     train_transform = v2.Compose([
         v2.ToImage(),
         v2.Resize((224, 224)),
+        v2.RandomAffine(degrees=(-15, 15), translate=(0.1, 0.1), scale=(0.9, 1.1)),
+        v2.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
+        v2.RandomHorizontalFlip(p=0.5),
         v2.ToDtype(torch.float32, scale=True),
-        v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        v2.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        v2.RandomErasing(p=0.5, scale=(0.02, 0.2))
     ])
     
     valid_transform = v2.Compose([
