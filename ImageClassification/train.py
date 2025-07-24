@@ -67,9 +67,9 @@ def plot_loss(train_losses, valid_losses, epochs, results_path):
 if __name__ == '__main__':
     #必須
     data_path = './data/data.json'
-    label_path = 'path/to/annotations.json'
-    train_batch_size = 32
-    valid_batch_size = 32
+    label_path = './data/labels.json'
+    train_batch_size = 16
+    valid_batch_size = 16
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     lr = 0.001
     momentum = 0.9
